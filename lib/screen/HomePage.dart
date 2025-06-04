@@ -1,11 +1,10 @@
-import 'dart:async';
-
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:portfolio/utils/AppColors.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
+import 'CardItem.dart';
 import 'JobTimeline.dart';
 
 class HomePage extends StatefulWidget {
@@ -16,6 +15,14 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final _nameController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _messageController = TextEditingController();
+  final ScrollController _scrollController = ScrollController();
+  final GlobalKey _serviceKey = GlobalKey();
+  final GlobalKey _workKey = GlobalKey();
+  final GlobalKey _experienceKey = GlobalKey();
+  final GlobalKey _contactKey = GlobalKey();
   bool callHover = false;
 
   final List<Map<String, dynamic>> items = const [
@@ -57,6 +64,70 @@ class _HomePageState extends State<HomePage> {
     },
   ];
 
+  Future<void> _sendEmail() async {
+    final name = _nameController.text;
+    final email = _emailController.text;
+    final message = _messageController.text;
+
+    if (name.isEmpty || email.isEmpty || message.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please fill out all fields')),
+      );
+      return;
+    }
+
+    final Uri emailUri = Uri(
+      scheme: 'mailto',
+      path: 'emondd4@gmail.com',
+      queryParameters: {
+        'subject': 'Contact Form Submission from $name',
+        'body': 'Name: $name\nEmail: $email\nMessage: $message',
+      },
+    );
+
+    if (await canLaunchUrl(emailUri)) {
+      await launchUrl(emailUri);
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Could not launch email client')),
+      );
+    }
+  }
+
+  Future<void> _launchSocialUrl(String url) async {
+    final Uri uri = Uri.parse(url);
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri, mode: LaunchMode.externalApplication);
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Could not launch $url')),
+      );
+    }
+  }
+
+  void _scrollToTarget(GlobalKey key) {
+    final RenderBox? renderBox = key.currentContext?.findRenderObject() as RenderBox?;
+    if (renderBox != null) {
+      final position = renderBox.localToGlobal(Offset.zero).dy;
+      final scrollPosition = _scrollController.position;
+
+      _scrollController.animateTo(
+        position - scrollPosition.viewportDimension * 0.2,
+        duration: const Duration(milliseconds: 500),
+        curve: Curves.easeInOut,
+      );
+    }
+  }
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _emailController.dispose();
+    _messageController.dispose();
+    _scrollController.dispose();
+    super.dispose();
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -78,6 +149,7 @@ class _HomePageState extends State<HomePage> {
                 MediaQuery.sizeOf(context).width * 0.035,
                 MediaQuery.sizeOf(context).width * 0.035),
             child: SingleChildScrollView(
+              controller: _scrollController,
               child: Padding(
                 padding: const EdgeInsets.all(5.0),
                 child: Column(
@@ -93,32 +165,62 @@ class _HomePageState extends State<HomePage> {
                                   color: AppColors.textBlueColor),
                             ),
                             Spacer(),
-                            Text(
-                              "SERVICES",
-                              style: GoogleFonts.outfit(
-                                  fontSize: 12.0,
-                                  color: AppColors.textBlueColor,
-                                  letterSpacing: 1.5),
+                            GestureDetector(
+                              onTap: () {
+                                _scrollToTarget(_serviceKey);
+                      },
+                              child: Text(
+                                "SERVICES",
+                                style: GoogleFonts.outfit(
+                                    fontSize: 12.0,
+                                    color: AppColors.textBlueColor,
+                                    letterSpacing: 1.5),
+                              ),
                             ),
                             SizedBox(
                               width: MediaQuery.sizeOf(context).width * 0.035,
                             ),
-                            Text(
-                              "WORKS",
-                              style: GoogleFonts.outfit(
-                                  fontSize: 12.0,
-                                  color: AppColors.textBlueColor,
-                                  letterSpacing: 1.5),
+                            GestureDetector(
+                              onTap: () {
+                                _scrollToTarget(_workKey);
+                              },
+                              child: Text(
+                                "WORKS",
+                                style: GoogleFonts.outfit(
+                                    fontSize: 12.0,
+                                    color: AppColors.textBlueColor,
+                                    letterSpacing: 1.5),
+                              ),
                             ),
                             SizedBox(
                               width: MediaQuery.sizeOf(context).width * 0.035,
                             ),
-                            Text(
-                              "EXPERIENCE",
-                              style: GoogleFonts.outfit(
-                                  fontSize: 12.0,
-                                  color: AppColors.textBlueColor,
-                                  letterSpacing: 1.5),
+                            GestureDetector(
+                              onTap:() {
+                                _scrollToTarget(_experienceKey);
+                              },
+                              child: Text(
+                                "EXPERIENCE",
+                                style: GoogleFonts.outfit(
+                                    fontSize: 12.0,
+                                    color: AppColors.textBlueColor,
+                                    letterSpacing: 1.5),
+                              ),
+                            ),
+                            SizedBox(
+                              width: MediaQuery.sizeOf(context).width * 0.035,
+                            ),
+                            GestureDetector(
+                              onTap:() {
+                                _scrollToTarget(_contactKey);
+                              },
+                              child: Text(
+                                "CONTACT ME",
+                                style: GoogleFonts.outfit(
+                                    fontSize: 12.0,
+                                    color: AppColors.textBlueColor,
+                                    letterSpacing: 1.5),
+                              ),
                             ),
                             Spacer(),
                             InkWell(
@@ -182,32 +284,62 @@ class _HomePageState extends State<HomePage> {
                                   color: AppColors.textBlueColor),
                             ),
                             Spacer(),
-                            Text(
-                              "SERVICES",
-                              style: GoogleFonts.outfit(
-                                  fontSize: 16.0,
-                                  color: AppColors.textBlueColor,
-                                  letterSpacing: 1.5),
+                            GestureDetector(
+                              onTap: () {
+                                _scrollToTarget(_serviceKey);
+                              },
+                              child: Text(
+                                "SERVICES",
+                                style: GoogleFonts.outfit(
+                                    fontSize: 16.0,
+                                    color: AppColors.textBlueColor,
+                                    letterSpacing: 1.5),
+                              ),
                             ),
                             SizedBox(
                               width: MediaQuery.sizeOf(context).width * 0.035,
                             ),
-                            Text(
-                              "WORKS",
-                              style: GoogleFonts.outfit(
-                                  fontSize: 16.0,
-                                  color: AppColors.textBlueColor,
-                                  letterSpacing: 1.5),
+                            GestureDetector(
+                              onTap: () {
+                                _scrollToTarget(_workKey);
+                              },
+                              child: Text(
+                                "WORKS",
+                                style: GoogleFonts.outfit(
+                                    fontSize: 16.0,
+                                    color: AppColors.textBlueColor,
+                                    letterSpacing: 1.5),
+                              ),
                             ),
                             SizedBox(
                               width: MediaQuery.sizeOf(context).width * 0.035,
                             ),
-                            Text(
-                              "EXPERIENCE",
-                              style: GoogleFonts.outfit(
-                                  fontSize: 16.0,
-                                  color: AppColors.textBlueColor,
-                                  letterSpacing: 1.5),
+                            GestureDetector(
+                              onTap:() {
+                                _scrollToTarget(_experienceKey);
+                              },
+                              child: Text(
+                                "EXPERIENCE",
+                                style: GoogleFonts.outfit(
+                                    fontSize: 16.0,
+                                    color: AppColors.textBlueColor,
+                                    letterSpacing: 1.5),
+                              ),
+                            ),
+                            SizedBox(
+                              width: MediaQuery.sizeOf(context).width * 0.035,
+                            ),
+                            GestureDetector(
+                              onTap:() {
+                                _scrollToTarget(_contactKey);
+                              },
+                              child: Text(
+                                "CONTACT ME",
+                                style: GoogleFonts.outfit(
+                                    fontSize: 16.0,
+                                    color: AppColors.textBlueColor,
+                                    letterSpacing: 1.5),
+                              ),
                             ),
                             Spacer(),
                             Row(
@@ -342,12 +474,15 @@ class _HomePageState extends State<HomePage> {
                               ),
                             ),
                             const SizedBox(width: 15.0,),
-                            SizedBox(
+                            Container(
                                     height:
-                                        MediaQuery.sizeOf(context).height * 0.6,
+                                        MediaQuery.sizeOf(context).height * 0.5,
                                     width:
-                                        MediaQuery.sizeOf(context).width * 0.5,
-                                    child: Image.asset("assets/picofme.png"))
+                                        MediaQuery.sizeOf(context).width * 0.29,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(8.0),
+                                    ),
+                                    child: ClipRRect(borderRadius: BorderRadius.circular(8.0),child: Image.asset("assets/picofme.png"),))
                           ],
                         );
                       } else {
@@ -411,10 +546,13 @@ class _HomePageState extends State<HomePage> {
                                 ],
                               ),
                             ),
-                            SizedBox(
-                                height: MediaQuery.sizeOf(context).height * 0.6,
+                            Container(
+                                height: MediaQuery.sizeOf(context).height * 0.5,
                                 width: MediaQuery.sizeOf(context).height * 0.5,
-                                child: Image.asset("assets/picofme.png"))
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(8.0),
+                                ),
+                                child: ClipRRect(borderRadius: BorderRadius.circular(8.0),child: Image.asset("assets/picofme.png"),))
                           ],
                         );
                       }
@@ -423,6 +561,7 @@ class _HomePageState extends State<HomePage> {
                       height: MediaQuery.sizeOf(context).height * 0.10,
                     ),
                     Center(
+                      key: _serviceKey,
                       child: Text(
                         "SERVICES",
                         style: GoogleFonts.outfit(
@@ -985,6 +1124,7 @@ class _HomePageState extends State<HomePage> {
                       height: MediaQuery.sizeOf(context).height * 0.10,
                     ),
                     Center(
+                      key: _workKey,
                       child: Text(
                         "WORKINGS",
                         style: GoogleFonts.outfit(
@@ -1025,55 +1165,13 @@ class _HomePageState extends State<HomePage> {
                         },
                       );
                     }),
-                    // CarouselSlider.builder(
-                    //     itemCount: images.length,
-                    //     itemBuilder: (context,itemIndex,pageViewIndex) {
-                    //       return Container(
-                    //         decoration: BoxDecoration(
-                    //           color: Colors.red,
-                    //           borderRadius: BorderRadius.circular(10.0)
-                    //         ),
-                    //         child: Stack(
-                    //           children: [
-                    //             Positioned(child: ClipRRect(clipBehavior: Clip.antiAlias ,borderRadius: BorderRadius.circular(10.0),child: Image.asset(images[itemIndex],fit: BoxFit.cover,),)),
-                    //             Positioned(bottom:10,right:10,child: Align(
-                    //               child: Container(
-                    //                 width: MediaQuery.sizeOf(context).width * 0.08,
-                    //                 decoration: BoxDecoration(
-                    //                   borderRadius: BorderRadius.circular(8.0),
-                    //                   color: AppColors.textLightBlueColor
-                    //                 ),
-                    //                 child: Padding(
-                    //                   padding: const EdgeInsets.fromLTRB(20.0,8.0,20.0,8.0),
-                    //                   child: Center(child: Text("Live Link",style: GoogleFonts.outfit(fontSize: 16.0,fontWeight: FontWeight.bold,color: Colors.white),)),
-                    //                 ),
-                    //               ),
-                    //             )),
-                    //           ],
-                    //         ),
-                    //       );
-                    //     },
-                    //     options: CarouselOptions(
-                    //       height: MediaQuery.sizeOf(context).height * 0.65,
-                    //       viewportFraction: 1.0,
-                    //       initialPage: 0,
-                    //       enableInfiniteScroll: true,
-                    //       reverse: false,
-                    //       autoPlay: true,
-                    //       autoPlayInterval: Duration(seconds: 5),
-                    //       autoPlayAnimationDuration: Duration(milliseconds: 800),
-                    //       autoPlayCurve: Curves.fastOutSlowIn,
-                    //       enlargeCenterPage: true,
-                    //       enlargeFactor: 0.2,
-                    //       scrollDirection: Axis.horizontal,
-                    //     )
-                    // ),
 
                     /// Experience
                     SizedBox(
                       height: MediaQuery.sizeOf(context).height * 0.10,
                     ),
                     Center(
+                      key: _experienceKey,
                       child: Text(
                         "EXPERIENCE",
                         style: GoogleFonts.outfit(
@@ -1088,6 +1186,142 @@ class _HomePageState extends State<HomePage> {
                       height: MediaQuery.sizeOf(context).height * 0.10,
                     ),
                     JobTimeLine(),
+
+                    /// Contact Me
+                    SizedBox(
+                      height: MediaQuery.sizeOf(context).height * 0.10,
+                    ),
+                    Center(
+                      key: _contactKey,
+                      child: Text(
+                        "CONTACT WITH ME",
+                        style: GoogleFonts.outfit(
+                            fontSize: 32.0,
+                            fontWeight: FontWeight.bold,
+                            textStyle: TextStyle(
+                                letterSpacing: 1.5,
+                                decoration: TextDecoration.underline)),
+                      ),
+                    ),
+                    SizedBox(
+                      height: MediaQuery.sizeOf(context).height * 0.10,
+                    ),
+                    LayoutBuilder(
+                builder: (context, constraints) {
+                  return constraints.maxWidth > 600
+                      ? Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // Left Side: Social Media Icons
+                      Expanded(
+                        flex: 1,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            _buildSocialIcon(
+                              FontAwesomeIcons.linkedin,
+                              'https://www.linkedin.com/in/emondd4/',
+                            ),
+                            const SizedBox(height: 20),
+                            _buildSocialIcon(
+                              FontAwesomeIcons.facebook,
+                              'https://www.facebook.com/emon.dd4/',
+                            ),
+                            const SizedBox(height: 20),
+                            _buildSocialIcon(
+                              FontAwesomeIcons.instagram,
+                              'https://www.instagram.com/emon.dd4/',
+                            ),
+                            const SizedBox(height: 20),
+                            _buildSocialIcon(
+                              FontAwesomeIcons.hackerrank,
+                              'https://www.hackerrank.com/profile/emondd4',
+                            ),
+                            const SizedBox(height: 20),
+                            _buildSocialIcon(
+                              FontAwesomeIcons.code,
+                              'https://leetcode.com/u/emondd4/',
+                            ),
+                            const SizedBox(height: 20),
+                            _buildSocialIcon(
+                              FontAwesomeIcons.github,
+                              'https://github.com/emondd4',
+                            ),
+                            const SizedBox(height: 20),
+                            _buildSocialIcon(
+                              FontAwesomeIcons.stackOverflow,
+                              'https://stackoverflow.com/users/13304913/emon-hossain-munna',
+                            ),
+                          ],
+                        ),
+                      ),
+                      // Divider
+                      const VerticalDivider(
+                        width: 32,
+                        thickness: 1,
+                        color: Colors.grey,
+                      ),
+                      // Right Side: Contact Form
+                      Expanded(
+                        flex: 2,
+                        child: _buildContactForm(),
+                      ),
+                    ],
+                  )
+                      : Column(
+                    children: [
+                      // Social Media Icons
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          _buildSocialIcon(
+                            FontAwesomeIcons.linkedin,
+                            'https://www.linkedin.com/in/emondd4/',
+                          ),
+                          const SizedBox(height: 20),
+                          _buildSocialIcon(
+                            FontAwesomeIcons.facebook,
+                            'https://www.facebook.com/emon.dd4/',
+                          ),
+                          const SizedBox(height: 20),
+                          _buildSocialIcon(
+                            FontAwesomeIcons.instagram,
+                            'https://www.instagram.com/emon.dd4/',
+                          ),
+                          const SizedBox(height: 20),
+                          _buildSocialIcon(
+                            FontAwesomeIcons.hackerrank,
+                            'https://www.hackerrank.com/profile/emondd4',
+                          ),
+                          const SizedBox(height: 20),
+                          _buildSocialIcon(
+                            FontAwesomeIcons.code,
+                            'https://www.leetcode.com/u/emondd4/',
+                          ),
+                          const SizedBox(height: 20),
+                          _buildSocialIcon(
+                            FontAwesomeIcons.github,
+                            'https://github.com/emondd4',
+                          ),
+                          const SizedBox(height: 20),
+                          _buildSocialIcon(
+                            FontAwesomeIcons.stackOverflow,
+                            'https://stackoverflow.com/users/13304913/emon-hossain-munna',
+                          ),
+                        ],
+                      ),
+                      // Divider
+                      const Divider(
+                        height: 32,
+                        thickness: 1,
+                        color: Colors.grey,
+                      ),
+                      // Contact Form
+                      _buildContactForm(),
+                    ],
+                  );
+                },
+              ),
                   ],
                 ),
               ),
@@ -1098,112 +1332,113 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-}
+  Widget _buildSocialIcon(IconData icon, String url) {
+    bool isHovered = false; // Track hover state
 
-class CardItem extends StatefulWidget {
-  final Map<String, dynamic> item;
-
-  const CardItem({super.key, required this.item});
-
-  @override
-  State<CardItem> createState() => _CardItemState();
-}
-
-class _CardItemState extends State<CardItem> {
-  bool _isHovered = false;
-
-  Future<void> _launchUrl(String url) async {
-    final uri = Uri.parse(url);
-    if (await canLaunchUrl(uri)) {
-      await launchUrl(uri, mode: LaunchMode.externalApplication);
-    } else {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Could not launch URL')),
+    return StatefulBuilder(
+      builder: (context, setState) {
+        return MouseRegion(
+          onEnter: (_) => setState(() => isHovered = true),
+          onExit: (_) => setState(() => isHovered = false),
+          child: GestureDetector(
+            onTap: () => _launchSocialUrl(url),
+            child: AnimatedContainer(
+              duration: const Duration(milliseconds: 300),
+              curve: Curves.easeInOut,
+              padding: const EdgeInsets.all(8),
+              transform: isHovered ? Matrix4.identity().scaled(1.2) : Matrix4.identity(),
+              transformAlignment: Alignment.center,
+              child: FaIcon(
+                icon,
+                size: isHovered ? 40 : 32, // Size changes on hover
+                color: isHovered ? AppColors.textLightBlueColor : AppColors.textBlueColor, // Color changes on hover
+              ),
+            ),
+          ),
         );
-      }
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return MouseRegion(
-      onEnter: (_) => setState(() => _isHovered = true),
-      onExit: (_) => setState(() => _isHovered = false),
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 300),
-        transform: Matrix4.translationValues(0, _isHovered ? -30 : 0, 0),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(12),
-          boxShadow: [
-            BoxShadow(
-              color: _isHovered ? AppColors.textLightBlueColor.withOpacity(0.5) : Colors.black.withOpacity(0.1),
-              blurRadius: 10,
-              offset: const Offset(0, 4),
-            ),
-          ],
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            ClipRRect(
-              borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
-              child: AnimatedContainer(
-                duration: const Duration(milliseconds: 300),
-                transform: Matrix4.identity()..scale(_isHovered ? 1.1 : 1.0),
-                child: Image.asset(
-                  widget.item['imageUrl'],
-                  height: MediaQuery.sizeOf(context).height * 0.45,
-                  width: double.infinity,
-                  fit: BoxFit.cover,
-                  errorBuilder: (context, error, stackTrace) {
-                    return const Center(child: Icon(Icons.error, size: 50));
-                  },
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    widget.item['title'],
-                    style: GoogleFonts.outfit(
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.textBlueColor,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    widget.item['description'],
-                    style: GoogleFonts.outfit(
-                      fontSize: 12,
-                      color: AppColors.textBlueColor,
-                    ),
-                  ),
-                  SizedBox(height: MediaQuery.sizeOf(context).height * 0.06),
-                  ElevatedButton(
-                    onPressed: () => _launchUrl(widget.item['liveUrl']),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.textBlueColor,
-                      foregroundColor: Colors.white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                    ),
-                    child: Text('Go Live',style: GoogleFonts.outfit(fontSize: 12.0,color: Colors.white),),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
+      },
     );
   }
+
+  Widget _buildContactForm() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Get in Touch',
+          style: GoogleFonts.outfit(
+            fontSize: 22,
+            fontWeight: FontWeight.bold,
+            color: AppColors.textBlueColor,
+          ),
+        ),
+        const SizedBox(height: 16),
+        Text(
+          'Feel free to send me a message! I\'ll get back to you as soon as possible.',
+          style: GoogleFonts.outfit(
+            fontSize: 12,
+            color: AppColors.textLightBlueColor,
+          ),
+        ),
+        const SizedBox(height: 24),
+        TextField(
+          controller: _nameController,
+          decoration: const InputDecoration(
+            labelText: 'Your Name',
+            labelStyle: TextStyle(color: AppColors.textLightBlueColor),
+            border: OutlineInputBorder(),
+            focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: AppColors.textLightBlueColor, width: 2),
+            ),
+          ),
+        ),
+        const SizedBox(height: 16),
+        TextField(
+          controller: _emailController,
+          decoration: const InputDecoration(
+            labelText: 'Your Email',
+            labelStyle: TextStyle(color: AppColors.textLightBlueColor),
+            border: OutlineInputBorder(),
+            focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: AppColors.textLightBlueColor, width: 2),
+            ),
+          ),
+          keyboardType: TextInputType.emailAddress,
+        ),
+        const SizedBox(height: 16),
+        TextField(
+          controller: _messageController,
+          decoration: const InputDecoration(
+            labelText: 'Your Message',
+            labelStyle: TextStyle(color: AppColors.textLightBlueColor),
+            border: OutlineInputBorder(),
+            focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: AppColors.textLightBlueColor, width: 2),
+            ),
+          ),
+          maxLines: 4,
+        ),
+        const SizedBox(height: 24),
+        ElevatedButton(
+          onPressed: _sendEmail,
+          style: ElevatedButton.styleFrom(
+            backgroundColor: AppColors.textBlueColor,
+            foregroundColor: Colors.white,
+            padding: const EdgeInsets.symmetric(vertical: 16),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8),
+            ),
+            minimumSize: const Size(double.infinity, 50),
+          ),
+          child: const Text(
+            'Get Connected',
+            style: TextStyle(fontSize: 16),
+          ),
+        ),
+      ],
+    );
+  }
+
 }
 
 
