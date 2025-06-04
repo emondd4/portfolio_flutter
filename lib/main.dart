@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:portfolio/screen/HomePage.dart';
 
-void main() {
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await GoogleFonts.pendingFonts([
+    GoogleFonts.permanentMarker(),
+    GoogleFonts.pacifico(),
+    GoogleFonts.outfit(),
+  ]);
   runApp(const MyApp());
 }
 

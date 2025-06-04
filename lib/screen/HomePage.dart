@@ -4,8 +4,9 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:portfolio/utils/AppColors.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
-import 'package:video_player/video_player.dart';
+import 'JobTimeline.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -17,47 +18,45 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   bool callHover = false;
 
-  late VideoPlayerController videoPlayerController;
-
-  List<String> images = [
-    "assets/acMonitor.png",
-    "assets/wmsMonitor.png",
+  final List<Map<String, dynamic>> items = const [
+    {
+      'title': 'Sensometer Ac Monitoring',
+      'description': 'This Application Gives Analytics on AC Usage and Give User Full Access to Control Over Assigned ACs.',
+      'imageUrl': 'assets/acMonitor.png',
+      'liveUrl': 'https://play.google.com/store/apps/details?id=com.aqualink.sensometer_ac_monitoring',
+    },
+    {
+      'title': 'Agrotrace Tobacco',
+      'description': 'This Application is Mainly for Jamil Group Crop Management Where They Can Create Farmer, Give Loan, Purchase, Rehandle, Ship and Factory Feed.',
+      'imageUrl': 'assets/agrotrace.png',
+      'liveUrl': 'https://play.google.com/store/apps/details?id=slodh.aqualink.tobaccotrace.agrotracetobacco',
+    },
+    {
+      'title': 'Bluetooth Sensometer',
+      'description': 'This Application is Mainly Used to Take Value of Ammonia, Oxygen, Carbon, Nitrogen of Soil Using Realtime Bluetooth Module.',
+      'imageUrl': 'assets/Btmeter.png',
+      'liveUrl': 'https://play.google.com/store/apps/details?id=com.aqualinkbangladesh.water_sensor.water_sensor',
+    },
+    {
+      'title': 'Fithub',
+      'description': 'This Application is Mainly Used for Gym Management Where Admin can Create Member, Manage Payment, Manage Membership and Many More.',
+      'imageUrl': 'assets/fithub.png',
+      'liveUrl': 'https://play.google.com/store/apps/details?id=com.aqualink.fithub_gym_management',
+    },
+    {
+      'title': 'Qpass',
+      'description': 'This Application is Mainly Used for Human Resource Management Where Admin can Create Member, Manage Salary, Manage Employee, Manage Holidays and Many More.',
+      'imageUrl': 'assets/Hr.png',
+      'liveUrl': 'https://play.google.com/store/apps/details?id=com.aqualink.hrms_mobile_app',
+    },
+    {
+      'title': 'Aquaculture WMS',
+      'description': 'This Application is Mainly Used for Aquaculture Where User Can Create Pond, Assign Pond, Get Realtime Sensor Values Like DO,NO3,CO2 Even Users Can Get Analysis too.',
+      'imageUrl': 'assets/wmsMonitor.png',
+      'liveUrl': 'https://play.google.com/store/apps/details?id=com.aqualinkbd.aquaculture_wms',
+    },
   ];
 
-  List<String> appName = [
-    "Sensometer Ac Monitoring",
-    "Water Monitoring System",
-  ];
-
-  List<String> appLink = [
-    "Sensometer Ac Monitoring",
-    "Water Monitoring System",
-  ];
-
-  @override
-  void initState() {
-    initVideoController();
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    videoPlayerController.dispose();
-    super.dispose();
-  }
-
-  Future initVideoController() async {
-    videoPlayerController = VideoPlayerController.asset("assets/user.mp4")
-      ..setLooping(true)
-      ..initialize().then((_) {
-        setState(() {
-
-        });
-      });
-    Timer(Duration(seconds: 2), () {
-      videoPlayerController.play();
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -343,14 +342,12 @@ class _HomePageState extends State<HomePage> {
                               ),
                             ),
                             const SizedBox(width: 15.0,),
-                            videoPlayerController.value.isInitialized
-                                ? SizedBox(
+                            SizedBox(
                                     height:
                                         MediaQuery.sizeOf(context).height * 0.6,
                                     width:
                                         MediaQuery.sizeOf(context).width * 0.5,
-                                    child: VideoPlayer(videoPlayerController))
-                                : SizedBox()
+                                    child: Image.asset("assets/picofme.png"))
                           ],
                         );
                       } else {
@@ -417,7 +414,7 @@ class _HomePageState extends State<HomePage> {
                             SizedBox(
                                 height: MediaQuery.sizeOf(context).height * 0.6,
                                 width: MediaQuery.sizeOf(context).height * 0.5,
-                                child: VideoPlayer(videoPlayerController))
+                                child: Image.asset("assets/picofme.png"))
                           ],
                         );
                       }
@@ -1001,31 +998,76 @@ class _HomePageState extends State<HomePage> {
                     SizedBox(
                       height: MediaQuery.sizeOf(context).height * 0.10,
                     ),
-                    CarouselSlider.builder(
-                        itemCount: 12,
-                        itemBuilder: (context,itemIndex,pageViewIndex) {
-                          return Container(
-
-                            decoration: BoxDecoration(
-                              color: Colors.redAccent
-                            ),
+                    LayoutBuilder(builder: (context,constraint){
+                      return constraint.maxWidth < 600 ? ListView.builder(
+                        shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
+                        itemCount: items.length,
+                        itemBuilder: (context, index) {
+                          return Padding(
+                            padding: const EdgeInsets.only(bottom: 8.0),
+                            child: CardItem(item: items[index]),
                           );
                         },
-                        options: CarouselOptions(
-                          height: MediaQuery.sizeOf(context).height * 0.7,
-                          viewportFraction: 0.9,
-                          initialPage: 0,
-                          enableInfiniteScroll: true,
-                          reverse: false,
-                          autoPlay: true,
-                          autoPlayInterval: Duration(seconds: 5),
-                          autoPlayAnimationDuration: Duration(milliseconds: 800),
-                          autoPlayCurve: Curves.fastOutSlowIn,
-                          enlargeCenterPage: true,
-                          enlargeFactor: 0.2,
-                          scrollDirection: Axis.horizontal,
-                        )
-                    ),
+                      )
+                          : GridView.builder(
+                        shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
+                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 3,
+                          crossAxisSpacing: 16,
+                          mainAxisSpacing: 16,
+                          childAspectRatio: 3 / 4,
+                        ),
+                        itemCount: items.length,
+                        itemBuilder: (context, index) {
+                          return CardItem(item: items[index]);
+                        },
+                      );
+                    }),
+                    // CarouselSlider.builder(
+                    //     itemCount: images.length,
+                    //     itemBuilder: (context,itemIndex,pageViewIndex) {
+                    //       return Container(
+                    //         decoration: BoxDecoration(
+                    //           color: Colors.red,
+                    //           borderRadius: BorderRadius.circular(10.0)
+                    //         ),
+                    //         child: Stack(
+                    //           children: [
+                    //             Positioned(child: ClipRRect(clipBehavior: Clip.antiAlias ,borderRadius: BorderRadius.circular(10.0),child: Image.asset(images[itemIndex],fit: BoxFit.cover,),)),
+                    //             Positioned(bottom:10,right:10,child: Align(
+                    //               child: Container(
+                    //                 width: MediaQuery.sizeOf(context).width * 0.08,
+                    //                 decoration: BoxDecoration(
+                    //                   borderRadius: BorderRadius.circular(8.0),
+                    //                   color: AppColors.textLightBlueColor
+                    //                 ),
+                    //                 child: Padding(
+                    //                   padding: const EdgeInsets.fromLTRB(20.0,8.0,20.0,8.0),
+                    //                   child: Center(child: Text("Live Link",style: GoogleFonts.outfit(fontSize: 16.0,fontWeight: FontWeight.bold,color: Colors.white),)),
+                    //                 ),
+                    //               ),
+                    //             )),
+                    //           ],
+                    //         ),
+                    //       );
+                    //     },
+                    //     options: CarouselOptions(
+                    //       height: MediaQuery.sizeOf(context).height * 0.65,
+                    //       viewportFraction: 1.0,
+                    //       initialPage: 0,
+                    //       enableInfiniteScroll: true,
+                    //       reverse: false,
+                    //       autoPlay: true,
+                    //       autoPlayInterval: Duration(seconds: 5),
+                    //       autoPlayAnimationDuration: Duration(milliseconds: 800),
+                    //       autoPlayCurve: Curves.fastOutSlowIn,
+                    //       enlargeCenterPage: true,
+                    //       enlargeFactor: 0.2,
+                    //       scrollDirection: Axis.horizontal,
+                    //     )
+                    // ),
 
                     /// Experience
                     SizedBox(
@@ -1058,131 +1100,110 @@ class _HomePageState extends State<HomePage> {
 
 }
 
-class JobTimeLine extends StatelessWidget {
-  const JobTimeLine({super.key});
+class CardItem extends StatefulWidget {
+  final Map<String, dynamic> item;
+
+  const CardItem({super.key, required this.item});
 
   @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        TimelineItem(
-          date: "MAR 2016 - PRESENT",
-          title: "AQUALINK BANGLADESH LTD.",
-          description:
-          "FLUTTER DEVELOPER\nDelivering clean, maintainable, and optimized code, Ensuring pixel-perfect UI across platforms, Shipping production-grade applications with modern tech, Collaborating with teams to bring innovative ideas to life",
-          dotColor: Colors.teal,
-        ),
-        const SizedBox(height: 10.0,),
-        TimelineItem(
-          date: "AUG 2020 - MAR 2022",
-          title: "BDTASK",
-          description:
-          "KOTLIN DEVELOPER\nImplementing MVVM architecture for clean code separation, Integrating REST APIs and local databases (Room, SQLite), Ensuring performance, scalability, and security best practices",
-          dotColor: Colors.yellow,
-          isLast: false,
-        ),
-      ],
-    );
-  }
+  State<CardItem> createState() => _CardItemState();
 }
 
-class TimelineItem extends StatelessWidget {
-  final String date;
-  final String title;
-  final String description;
-  final Color dotColor;
-  final bool isLast;
+class _CardItemState extends State<CardItem> {
+  bool _isHovered = false;
 
-  const TimelineItem({
-    required this.date,
-    required this.title,
-    required this.description,
-    required this.dotColor,
-    this.isLast = false,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        // Left side: Date and Title
-        Expanded(
-          flex: 1,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              Text(
-                date,
-                style: TextStyle(
-                  fontSize: 14,
-                  color: Colors.grey,
-                ),
-                textAlign: TextAlign.end,
-              ),
-              SizedBox(height: 4),
-              Text(
-                title,
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
-                textAlign: TextAlign.end,
-              ),
-            ],
-          ),
-        ),
-        SizedBox(width: 16),
-        // Center: Dot and Line
-        Column(
-          children: [
-            CircleAvatar(
-              radius: 10,
-              backgroundColor: dotColor,
-            ),
-            if (!isLast)
-              CustomPaint(
-                size: Size(2, 120),
-                painter: DashedLinePainter(),
-              ),
-          ],
-        ),
-        SizedBox(width: 16),
-        // Right side: Description
-        Expanded(
-          flex: 4,
-          child: Text(
-            description,
-            style: TextStyle(fontSize: 14),
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class DashedLinePainter extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..color = Colors.grey
-      ..strokeWidth = 2
-      ..style = PaintingStyle.stroke;
-
-    double dashHeight = 5;
-    double dashSpace = 5;
-    double startY = 0;
-
-    while (startY < size.height) {
-      canvas.drawLine(
-        Offset(0, startY),
-        Offset(0, startY + dashHeight),
-        paint,
-      );
-      startY += dashHeight + dashSpace;
+  Future<void> _launchUrl(String url) async {
+    final uri = Uri.parse(url);
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri, mode: LaunchMode.externalApplication);
+    } else {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Could not launch URL')),
+        );
+      }
     }
   }
 
   @override
-  bool shouldRepaint(CustomPainter oldDelegate) => false;
+  Widget build(BuildContext context) {
+    return MouseRegion(
+      onEnter: (_) => setState(() => _isHovered = true),
+      onExit: (_) => setState(() => _isHovered = false),
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 300),
+        transform: Matrix4.translationValues(0, _isHovered ? -30 : 0, 0),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(12),
+          boxShadow: [
+            BoxShadow(
+              color: _isHovered ? AppColors.textLightBlueColor.withOpacity(0.5) : Colors.black.withOpacity(0.1),
+              blurRadius: 10,
+              offset: const Offset(0, 4),
+            ),
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            ClipRRect(
+              borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
+              child: AnimatedContainer(
+                duration: const Duration(milliseconds: 300),
+                transform: Matrix4.identity()..scale(_isHovered ? 1.1 : 1.0),
+                child: Image.asset(
+                  widget.item['imageUrl'],
+                  height: MediaQuery.sizeOf(context).height * 0.45,
+                  width: double.infinity,
+                  fit: BoxFit.cover,
+                  errorBuilder: (context, error, stackTrace) {
+                    return const Center(child: Icon(Icons.error, size: 50));
+                  },
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    widget.item['title'],
+                    style: GoogleFonts.outfit(
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.textBlueColor,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    widget.item['description'],
+                    style: GoogleFonts.outfit(
+                      fontSize: 12,
+                      color: AppColors.textBlueColor,
+                    ),
+                  ),
+                  SizedBox(height: MediaQuery.sizeOf(context).height * 0.06),
+                  ElevatedButton(
+                    onPressed: () => _launchUrl(widget.item['liveUrl']),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppColors.textBlueColor,
+                      foregroundColor: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                    ),
+                    child: Text('Go Live',style: GoogleFonts.outfit(fontSize: 12.0,color: Colors.white),),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 }
+
+
