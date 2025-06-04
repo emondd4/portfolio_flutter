@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:portfolio/utils/AppColors.dart';
@@ -18,6 +19,21 @@ class _HomePageState extends State<HomePage> {
 
   late VideoPlayerController videoPlayerController;
 
+  List<String> images = [
+    "assets/acMonitor.png",
+    "assets/wmsMonitor.png",
+  ];
+
+  List<String> appName = [
+    "Sensometer Ac Monitoring",
+    "Water Monitoring System",
+  ];
+
+  List<String> appLink = [
+    "Sensometer Ac Monitoring",
+    "Water Monitoring System",
+  ];
+
   @override
   void initState() {
     initVideoController();
@@ -35,11 +51,12 @@ class _HomePageState extends State<HomePage> {
       ..setLooping(true)
       ..initialize().then((_) {
         setState(() {
-          Timer(Duration(seconds: 2), () {
-            videoPlayerController.play();
-          });
+
         });
       });
+    Timer(Duration(seconds: 2), () {
+      videoPlayerController.play();
+    });
   }
 
   @override
@@ -965,6 +982,52 @@ class _HomePageState extends State<HomePage> {
                         );
                       }
                     }),
+
+                    /// Workings
+                    SizedBox(
+                      height: MediaQuery.sizeOf(context).height * 0.10,
+                    ),
+                    Center(
+                      child: Text(
+                        "WORKINGS",
+                        style: GoogleFonts.outfit(
+                            fontSize: 32.0,
+                            fontWeight: FontWeight.bold,
+                            textStyle: TextStyle(
+                                letterSpacing: 1.5,
+                                decoration: TextDecoration.underline)),
+                      ),
+                    ),
+                    SizedBox(
+                      height: MediaQuery.sizeOf(context).height * 0.10,
+                    ),
+                    CarouselSlider.builder(
+                        itemCount: 12,
+                        itemBuilder: (context,itemIndex,pageViewIndex) {
+                          return Container(
+
+                            decoration: BoxDecoration(
+                              color: Colors.redAccent
+                            ),
+                          );
+                        },
+                        options: CarouselOptions(
+                          height: MediaQuery.sizeOf(context).height * 0.7,
+                          viewportFraction: 0.9,
+                          initialPage: 0,
+                          enableInfiniteScroll: true,
+                          reverse: false,
+                          autoPlay: true,
+                          autoPlayInterval: Duration(seconds: 5),
+                          autoPlayAnimationDuration: Duration(milliseconds: 800),
+                          autoPlayCurve: Curves.fastOutSlowIn,
+                          enlargeCenterPage: true,
+                          enlargeFactor: 0.2,
+                          scrollDirection: Axis.horizontal,
+                        )
+                    ),
+
+                    /// Experience
                     SizedBox(
                       height: MediaQuery.sizeOf(context).height * 0.10,
                     ),
@@ -982,7 +1045,7 @@ class _HomePageState extends State<HomePage> {
                     SizedBox(
                       height: MediaQuery.sizeOf(context).height * 0.10,
                     ),
-                    JobTimeLine()
+                    JobTimeLine(),
                   ],
                 ),
               ),
@@ -1045,7 +1108,7 @@ class TimelineItem extends StatelessWidget {
       children: [
         // Left side: Date and Title
         Expanded(
-          flex: 2,
+          flex: 1,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
@@ -1087,7 +1150,7 @@ class TimelineItem extends StatelessWidget {
         SizedBox(width: 16),
         // Right side: Description
         Expanded(
-          flex: 3,
+          flex: 4,
           child: Text(
             description,
             style: TextStyle(fontSize: 14),
