@@ -27,6 +27,48 @@ class _HomePageState extends State<HomePage> {
 
   final List<Map<String, dynamic>> items = const [
     {
+      'title': 'Crowd Connect',
+      'description': 'This Application is Mainly a Social Gathering Application That Helps Find People Nearby And Get Connect With Them.',
+      'imageUrl': 'assets/crowdConnect.png',
+      'liveUrl': 'https://drive.google.com/file/d/1pQIsivN9BWsHGF3Misyksi2iHzj56u46/view?usp=sharing',
+    },
+    {
+      'title': 'Driver Cashflow',
+      'description': 'This Application is Mainly Used For Driver Trip Management and Its Based On Italy.',
+      'imageUrl': 'assets/driverCashflow.jpg',
+      'liveUrl': 'https://play.google.com/store/apps/details?id=com.enjoycitytours.cashflow',
+    },
+    {
+      'title': 'Limo Lead (Driver)',
+      'description': 'This is Ride Share Application That Only Serves Limo Services. Its Based On Texas.',
+      'imageUrl': 'assets/limoDriver.png',
+      'liveUrl': 'https://drive.google.com/file/d/10b-mh342Y2_T5d05eo6RUlWNfSwz2bWm/view?usp=sharing',
+    },
+    {
+      'title': 'Limo Lead (Passenger)',
+      'description': 'This is Ride Share Application That Only Serves Limo Services. Its Based On Texas.',
+      'imageUrl': 'assets/limoPassenger.png',
+      'liveUrl': 'https://drive.google.com/file/d/16fYyiKEvytabTLXLrhCcY93FhV7MBEow/view?usp=sharing',
+    },
+    {
+      'title': 'Sensometer Generator Monitoring',
+      'description': 'This Application is Mainly For Generator Management System and Let User Know Insights, Status, Report and Control Panel',
+      'imageUrl': 'assets/generatorMonitor.jpg',
+      'liveUrl': 'https://play.google.com/store/apps/details?id=com.aqualinkbangladesh.sensometer_generator_monitoring',
+    },
+    {
+      'title': 'Sensometer EMS',
+      'description': 'This Application is Mainly For Energy Management and Let User Know Insights, Status, Report and Control Panel',
+      'imageUrl': 'assets/ems.png',
+      'liveUrl': 'https://play.google.com/store/apps/details?id=com.aqualinkbd.sensometer_ems',
+    },
+    {
+      'title': 'Sensometer Energy Monitoring',
+      'description': 'This Application is Mainly For Energy Management and Let User Know Insights, Status, Report and Control Panel',
+      'imageUrl': 'assets/energyMonitor.png',
+      'liveUrl': 'https://play.google.com/store/apps/details?id=com.aqualinkbd.sensometer_energy_monitoring',
+    },
+    {
       'title': 'Sensometer Ac Monitoring',
       'description': 'This Application Gives Analytics on AC Usage and Give User Full Access to Control Over Assigned ACs.',
       'imageUrl': 'assets/acMonitor.png',
@@ -291,13 +333,13 @@ class _HomePageState extends State<HomePage> {
                               child: Text(
                                 "SERVICES",
                                 style: GoogleFonts.outfit(
-                                    fontSize: 16.0,
+                                    fontSize: 14.0,
                                     color: AppColors.textBlueColor,
                                     letterSpacing: 1.5),
                               ),
                             ),
                             SizedBox(
-                              width: MediaQuery.sizeOf(context).width * 0.035,
+                              width: MediaQuery.sizeOf(context).width * 0.015,
                             ),
                             GestureDetector(
                               onTap: () {
@@ -306,13 +348,13 @@ class _HomePageState extends State<HomePage> {
                               child: Text(
                                 "WORKS",
                                 style: GoogleFonts.outfit(
-                                    fontSize: 16.0,
+                                    fontSize: 14.0,
                                     color: AppColors.textBlueColor,
                                     letterSpacing: 1.5),
                               ),
                             ),
                             SizedBox(
-                              width: MediaQuery.sizeOf(context).width * 0.035,
+                              width: MediaQuery.sizeOf(context).width * 0.015,
                             ),
                             GestureDetector(
                               onTap:() {
@@ -321,13 +363,13 @@ class _HomePageState extends State<HomePage> {
                               child: Text(
                                 "EXPERIENCE",
                                 style: GoogleFonts.outfit(
-                                    fontSize: 16.0,
+                                    fontSize: 14.0,
                                     color: AppColors.textBlueColor,
                                     letterSpacing: 1.5),
                               ),
                             ),
                             SizedBox(
-                              width: MediaQuery.sizeOf(context).width * 0.035,
+                              width: MediaQuery.sizeOf(context).width * 0.015,
                             ),
                             GestureDetector(
                               onTap:() {
@@ -336,7 +378,7 @@ class _HomePageState extends State<HomePage> {
                               child: Text(
                                 "CONTACT ME",
                                 style: GoogleFonts.outfit(
-                                    fontSize: 16.0,
+                                    fontSize: 14.0,
                                     color: AppColors.textBlueColor,
                                     letterSpacing: 1.5),
                               ),
@@ -347,7 +389,7 @@ class _HomePageState extends State<HomePage> {
                                 Text(
                                   "+8801676079239",
                                   style: GoogleFonts.outfit(
-                                      fontSize: 16.0,
+                                      fontSize: 14.0,
                                       color: AppColors.textBlueColor,
                                       letterSpacing: 1.5),
                                 ),
@@ -1155,9 +1197,9 @@ class _HomePageState extends State<HomePage> {
                         physics: NeverScrollableScrollPhysics(),
                         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 3,
-                          crossAxisSpacing: 16,
-                          mainAxisSpacing: 16,
-                          childAspectRatio: 3 / 4,
+                          crossAxisSpacing: 10,
+                          mainAxisSpacing: 10,
+                          childAspectRatio: 1.2
                         ),
                         itemCount: items.length,
                         itemBuilder: (context, index) {
