@@ -55,12 +55,28 @@ class _CardItemState extends State<CardItem> {
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.sizeOf(context).width;
     final screenHeight = MediaQuery.sizeOf(context).height;
+    final cardWidth = _getResponsiveValue(
+      context,
+      extraSmall: screenWidth * 0.95,
+      small: screenWidth * 0.9,
+      medium: screenWidth * 0.8,
+      large: screenWidth * 0.7,
+      infinity: screenWidth * 0.6,
+    );
 
     return MouseRegion(
       onEnter: (_) => setState(() => _isHovered = true),
       onExit: (_) => setState(() => _isHovered = false),
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 300),
+        height: _getResponsiveValue(
+          context,
+          extraSmall: screenHeight * 0.7,
+          small: screenHeight * 0.7,
+          medium: screenHeight * 0.20,
+          large: screenHeight * 0.22,
+          infinity: screenHeight * 0.28,
+        ),
         transform: Matrix4.translationValues(0, _isHovered ? -30 : 0, 0),
         decoration: BoxDecoration(
           color: Colors.white,
@@ -75,114 +91,122 @@ class _CardItemState extends State<CardItem> {
             ),
           ],
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            ClipRRect(
-              borderRadius: BorderRadius.vertical(
-                top: Radius.circular(
-                  _getResponsiveValue(context, extraSmall: 6, small: 8, medium: 10, large: 12, infinity: 14),
-                ),
-              ),
-              child: AnimatedContainer(
-                duration: const Duration(milliseconds: 300),
-                transform: Matrix4.identity()..scale(_isHovered ? 1.1 : 1.0),
-                child: Image.asset(
-                  widget.item['imageUrl'],
-                  height: _getResponsiveValue(
-                    context,
-                    extraSmall: screenHeight * 0.17,
-                    small: screenHeight * 0.17,
-                    medium: screenHeight * 0.20,
-                    large: screenHeight * 0.22,
-                    infinity: screenHeight * 0.28,
-                  ),
-                  width: double.infinity,
-                  fit: BoxFit.cover,
-                  errorBuilder: (context, error, stackTrace) {
-                    return Center(
-                      child: Icon(
-                        Icons.error,
-                        size: _getResponsiveValue(context, extraSmall: 30, small: 40, medium: 45, large: 50, infinity: 55),
-                      ),
-                    );
-                  },
-                ),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.all(
-                _getResponsiveValue(context, extraSmall: 6, small: 8, medium: 10, large: 12, infinity: 14),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    widget.item['title'],
-                    style: GoogleFonts.outfit(
-                      fontSize: _getResponsiveValue(context, extraSmall: 10, small: 11, medium: 12, large: 16, infinity: 18),
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.textBlueColor,
-                    ),
-                    maxLines: _getResponsiveValue(context, extraSmall: 1, small: 1, medium: 1, large: 2, infinity: 2).toInt(),
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  SizedBox(
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(
+            _getResponsiveValue(context, extraSmall: 6, small: 8, medium: 10, large: 12, infinity: 14),
+          ),
+          child: AnimatedContainer(
+            duration: const Duration(milliseconds: 300),
+            transform: Matrix4.identity()..scale(_isHovered ? 1.0 : 1.0),
+            child: Stack(
+              children: [
+                Positioned(
+                  top: 0,
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  child: Image.asset(
+                    widget.item['imageUrl'],
                     height: _getResponsiveValue(
                       context,
-                      extraSmall: screenHeight * 0.002,
-                      small: screenHeight * 0.005,
-                      medium: screenHeight * 0.01,
-                      large: screenHeight * 0.01,
-                      infinity: screenHeight * 0.01,
+                      extraSmall: screenHeight * 0.17,
+                      small: screenHeight * 0.17,
+                      medium: screenHeight * 0.20,
+                      large: screenHeight * 0.22,
+                      infinity: screenHeight * 0.28,
                     ),
-                  ),
-                  Text(
-                    widget.item['description'],
-                    style: GoogleFonts.outfit(
-                      fontSize: _getResponsiveValue(context, extraSmall: 8, small: 10, medium: 11, large: 12, infinity: 12),
-                      color: AppColors.textBlueColor,
-                    ),
-                    maxLines: _getResponsiveValue(context, extraSmall: 1, small: 1, medium: 1, large: 1, infinity: 2).toInt(),
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  SizedBox(
-                    height: _getResponsiveValue(
-                      context,
-                      extraSmall: screenHeight * 0.002,
-                      small: screenHeight * 0.005,
-                      medium: screenHeight * 0.01,
-                      large: screenHeight * 0.01,
-                      infinity: screenHeight * 0.01,
-                    ),
-                  ),
-                  ElevatedButton(
-                    onPressed: () => _launchUrl(widget.item['liveUrl']),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.textBlueColor,
-                      foregroundColor: Colors.white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(
-                          _getResponsiveValue(context, extraSmall: 4, small: 6, medium: 7, large: 8, infinity: 10),
+                    width: double.infinity,
+                    fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) {
+                      return Center(
+                        child: Icon(
+                          Icons.error,
+                          size: _getResponsiveValue(context, extraSmall: 30, small: 40, medium: 45, large: 50, infinity: 55),
                         ),
+                      );
+                    },
+                  ),
+                ),
+                Positioned(
+                  bottom: _isHovered ? 0 : -500,
+                  left: 0,
+                  right: 0,
+                  child: Container(
+                    color: Colors.white,
+                    width: cardWidth,
+                    child: Padding(
+                      padding: EdgeInsets.all(
+                        _getResponsiveValue(context, extraSmall: 6, small: 8, medium: 10, large: 12, infinity: 14),
                       ),
-                      padding: EdgeInsets.symmetric(
-                        horizontal: _getResponsiveValue(context, extraSmall: 8, small: 12, medium: 16, large: 20, infinity: 24),
-                        vertical: _getResponsiveValue(context, extraSmall: 6, small: 8, medium: 10, large: 12, infinity: 14),
-                      ),
-                    ),
-                    child: Text(
-                      'Go Live',
-                      style: GoogleFonts.outfit(
-                        fontSize: _getResponsiveValue(context, extraSmall: 8, small: 10, medium: 11, large: 12, infinity: 14),
-                        color: Colors.white,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            widget.item['title'],
+                            style: GoogleFonts.outfit(
+                              fontSize: _getResponsiveValue(context, extraSmall: 10, small: 11, medium: 12, large: 16, infinity: 18),
+                              fontWeight: FontWeight.bold,
+                              color: AppColors.textBlueColor,
+                            ),
+                          ),
+                          SizedBox(
+                            height: _getResponsiveValue(
+                              context,
+                              extraSmall: screenHeight * 0.002,
+                              small: screenHeight * 0.005,
+                              medium: screenHeight * 0.01,
+                              large: screenHeight * 0.01,
+                              infinity: screenHeight * 0.01,
+                            ),
+                          ),
+                          Text(
+                            widget.item['description'],
+                            style: GoogleFonts.outfit(
+                              fontSize: _getResponsiveValue(context, extraSmall: 8, small: 10, medium: 11, large: 12, infinity: 12),
+                              color: AppColors.textBlueColor,
+                            ),
+                          ),
+                          SizedBox(
+                            height: _getResponsiveValue(
+                              context,
+                              extraSmall: screenHeight * 0.002,
+                              small: screenHeight * 0.005,
+                              medium: screenHeight * 0.01,
+                              large: screenHeight * 0.01,
+                              infinity: screenHeight * 0.01,
+                            ),
+                          ),
+                          ElevatedButton(
+                            onPressed: () => _launchUrl(widget.item['liveUrl']),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: AppColors.textBlueColor,
+                              foregroundColor: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(
+                                  _getResponsiveValue(context, extraSmall: 4, small: 6, medium: 7, large: 8, infinity: 10),
+                                ),
+                              ),
+                              padding: EdgeInsets.symmetric(
+                                horizontal: _getResponsiveValue(context, extraSmall: 8, small: 12, medium: 16, large: 20, infinity: 24),
+                                vertical: _getResponsiveValue(context, extraSmall: 6, small: 8, medium: 10, large: 12, infinity: 14),
+                              ),
+                            ),
+                            child: Text(
+                              'Go Live',
+                              style: GoogleFonts.outfit(
+                                fontSize: _getResponsiveValue(context, extraSmall: 8, small: 10, medium: 11, large: 12, infinity: 14),
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );

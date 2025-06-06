@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:portfolio/utils/AppColors.dart';
@@ -20,6 +21,7 @@ class _HomePageState extends State<HomePage> {
   final _messageController = TextEditingController();
   final ScrollController _scrollController = ScrollController();
   final GlobalKey _serviceKey = GlobalKey();
+  final GlobalKey _skillsKey = GlobalKey();
   final GlobalKey _workKey = GlobalKey();
   final GlobalKey _experienceKey = GlobalKey();
   final GlobalKey _contactKey = GlobalKey();
@@ -105,6 +107,22 @@ class _HomePageState extends State<HomePage> {
       'liveUrl': 'https://play.google.com/store/apps/details?id=com.aqualinkbd.aquaculture_wms',
     },
   ];
+  final Map<String, String> skills = const {
+    'flutter': 'assets/flutter.svg',
+    'dart': 'assets/dart.svg',
+    'kotlin': 'assets/kotlin.svg',
+    'firebase': 'assets/firebase.svg',
+    'c++': 'assets/cpp.svg',
+    'nodejs': 'assets/nodejs.svg',
+    'mongodb': 'assets/mongodb.svg',
+    'docker': 'assets/docker.svg',
+    'postgresql': 'assets/postgresql.svg',
+    'hive': 'assets/hive.svg',
+    'sqlite': 'assets/sqlite.svg',
+    'typescript': 'assets/typescript.svg',
+    'js': 'assets/javascript.svg',
+    'express': 'assets/express.svg',
+  };
 
   Future<void> _sendEmail() async {
     final name = _nameController.text;
@@ -196,260 +214,271 @@ class _HomePageState extends State<HomePage> {
                 padding: const EdgeInsets.all(5.0),
                 child: Column(
                   children: [
-                    LayoutBuilder(builder: (context, constraint) {
-                      if (constraint.maxWidth < 600) {
-                        return Row(
-                          children: [
-                            Text(
-                              "emondd4",
-                              style: GoogleFonts.pacifico(
+                    ///AppBar
+                    LayoutBuilder(
+                      builder: (context, constraints) {
+                        if (constraints.maxWidth < 900) {
+                          return Row(
+                            children: [
+                              Text(
+                                "emondd4",
+                                style: GoogleFonts.pacifico(
                                   fontSize: 18.0,
-                                  color: AppColors.textBlueColor),
-                            ),
-                            Spacer(),
-                            GestureDetector(
-                              onTap: () {
-                                _scrollToTarget(_serviceKey);
-                      },
-                              child: Text(
-                                "SERVICES",
-                                style: GoogleFonts.outfit(
-                                    fontSize: 12.0,
-                                    color: AppColors.textBlueColor,
-                                    letterSpacing: 1.5),
-                              ),
-                            ),
-                            SizedBox(
-                              width: MediaQuery.sizeOf(context).width * 0.035,
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                _scrollToTarget(_workKey);
-                              },
-                              child: Text(
-                                "WORKS",
-                                style: GoogleFonts.outfit(
-                                    fontSize: 12.0,
-                                    color: AppColors.textBlueColor,
-                                    letterSpacing: 1.5),
-                              ),
-                            ),
-                            SizedBox(
-                              width: MediaQuery.sizeOf(context).width * 0.035,
-                            ),
-                            GestureDetector(
-                              onTap:() {
-                                _scrollToTarget(_experienceKey);
-                              },
-                              child: Text(
-                                "EXPERIENCE",
-                                style: GoogleFonts.outfit(
-                                    fontSize: 12.0,
-                                    color: AppColors.textBlueColor,
-                                    letterSpacing: 1.5),
-                              ),
-                            ),
-                            SizedBox(
-                              width: MediaQuery.sizeOf(context).width * 0.035,
-                            ),
-                            GestureDetector(
-                              onTap:() {
-                                _scrollToTarget(_contactKey);
-                              },
-                              child: Text(
-                                "CONTACT ME",
-                                style: GoogleFonts.outfit(
-                                    fontSize: 12.0,
-                                    color: AppColors.textBlueColor,
-                                    letterSpacing: 1.5),
-                              ),
-                            ),
-                            Spacer(),
-                            InkWell(
-                              onHover: (value) {
-                                setState(() {
-                                  callHover = value;
-                                });
-                              },
-                              onTap: () {
-                                launchUrlString("tel://+8801676079239");
-                              },
-                              child: AnimatedContainer(
-                                height: callHover != true ? 25 : 40,
-                                width: callHover != true ? 25 : 40,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(50),
-                                    color: callHover != true
-                                        ? Colors.white
-                                        : AppColors.textLightBlueColor,
-                                    boxShadow: callHover != true
-                                        ? [
-                                            BoxShadow(
-                                              color: Colors.grey
-                                                  .withValues(alpha: 0.5),
-                                              spreadRadius: 1,
-                                              blurRadius: 1,
-                                              offset: Offset(0,
-                                                  0), // changes position of shadow
-                                            ),
-                                          ]
-                                        : [
-                                            BoxShadow(
-                                              color: AppColors
-                                                  .textLightBlueColor
-                                                  .withValues(alpha: 0.5),
-                                              spreadRadius: 1,
-                                              blurRadius: 1,
-                                              offset: Offset(0,
-                                                  0), // changes position of shadow
-                                            ),
-                                          ]),
-                                duration: Duration(milliseconds: 300),
-                                child: Icon(
-                                  size: 16.0,
-                                  Icons.phone_forwarded_rounded,
-                                  color: callHover != true
-                                      ? AppColors.textLightBlueColor
-                                      : Colors.white,
+                                  color: AppColors.textBlueColor,
                                 ),
                               ),
-                            )
-                          ],
-                        );
-                      } else {
-                        return Row(
-                          children: [
-                            Text(
-                              "emondd4",
-                              style: GoogleFonts.pacifico(
+                              const Spacer(),
+                              DropdownButtonHideUnderline(
+                                child: DropdownButton<String>(
+                                  icon: const Icon(
+                                    Icons.menu,
+                                    color: AppColors.textBlueColor,
+                                    size: 24.0,
+                                  ),
+                                  items: [
+                                    DropdownMenuItem(
+                                      value: 'services',
+                                      child: Text(
+                                        "SERVICES",
+                                        style: GoogleFonts.outfit(
+                                          fontSize: 12.0,
+                                          color: AppColors.textBlueColor,
+                                          letterSpacing: 1.5,
+                                        ),
+                                      ),
+                                    ),
+                                    DropdownMenuItem(
+                                      value: 'works',
+                                      child: Text(
+                                        "WORKS",
+                                        style: GoogleFonts.outfit(
+                                          fontSize: 12.0,
+                                          color: AppColors.textBlueColor,
+                                          letterSpacing: 1.5,
+                                        ),
+                                      ),
+                                    ),
+                                    DropdownMenuItem(
+                                      value: 'experience',
+                                      child: Text(
+                                        "EXPERIENCE",
+                                        style: GoogleFonts.outfit(
+                                          fontSize: 12.0,
+                                          color: AppColors.textBlueColor,
+                                          letterSpacing: 1.5,
+                                        ),
+                                      ),
+                                    ),
+                                    DropdownMenuItem(
+                                      value: 'contact',
+                                      child: Text(
+                                        "CONTACT ME",
+                                        style: GoogleFonts.outfit(
+                                          fontSize: 12.0,
+                                          color: AppColors.textBlueColor,
+                                          letterSpacing: 1.5,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                  onChanged: (value) {
+                                    if (value == 'services') {
+                                      _scrollToTarget(_serviceKey);
+                                    } else if (value == 'works') {
+                                      _scrollToTarget(_workKey);
+                                    } else if (value == 'experience') {
+                                      _scrollToTarget(_experienceKey);
+                                    } else if (value == 'contact') {
+                                      _scrollToTarget(_contactKey);
+                                    }
+                                  },
+                                ),
+                              ),
+                              SizedBox(width: MediaQuery.sizeOf(context).width * 0.035),
+                              InkWell(
+                                onHover: (value) {
+                                  setState(() {
+                                    callHover = value;
+                                  });
+                                },
+                                onTap: () {
+                                  launchUrlString("tel://+8801676079239");
+                                },
+                                child: AnimatedContainer(
+                                  height: callHover ? 40 : 25,
+                                  width: callHover ? 40 : 25,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(50),
+                                    color: callHover ? AppColors.textLightBlueColor : Colors.white,
+                                    boxShadow: callHover
+                                        ? [
+                                      BoxShadow(
+                                        color: AppColors.textLightBlueColor.withOpacity(0.5),
+                                        spreadRadius: 1,
+                                        blurRadius: 1,
+                                        offset: const Offset(0, 0),
+                                      ),
+                                    ]
+                                        : [
+                                      BoxShadow(
+                                        color: Colors.grey.withOpacity(0.5),
+                                        spreadRadius: 1,
+                                        blurRadius: 1,
+                                        offset: const Offset(0, 0),
+                                      ),
+                                    ],
+                                  ),
+                                  duration: const Duration(milliseconds: 300),
+                                  child: Icon(
+                                    size: 16.0,
+                                    Icons.phone_forwarded_rounded,
+                                    color: callHover ? Colors.white : AppColors.textLightBlueColor,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          );
+                        } else {
+                          return Row(
+                            children: [
+                              Text(
+                                "emondd4",
+                                style: GoogleFonts.pacifico(
                                   fontSize: 22.0,
-                                  color: AppColors.textBlueColor),
-                            ),
-                            Spacer(),
-                            GestureDetector(
-                              onTap: () {
-                                _scrollToTarget(_serviceKey);
-                              },
-                              child: Text(
-                                "SERVICES",
-                                style: GoogleFonts.outfit(
-                                    fontSize: 14.0,
-                                    color: AppColors.textBlueColor,
-                                    letterSpacing: 1.5),
+                                  color: AppColors.textBlueColor,
+                                ),
                               ),
-                            ),
-                            SizedBox(
-                              width: MediaQuery.sizeOf(context).width * 0.015,
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                _scrollToTarget(_workKey);
-                              },
-                              child: Text(
-                                "WORKS",
-                                style: GoogleFonts.outfit(
-                                    fontSize: 14.0,
-                                    color: AppColors.textBlueColor,
-                                    letterSpacing: 1.5),
-                              ),
-                            ),
-                            SizedBox(
-                              width: MediaQuery.sizeOf(context).width * 0.015,
-                            ),
-                            GestureDetector(
-                              onTap:() {
-                                _scrollToTarget(_experienceKey);
-                              },
-                              child: Text(
-                                "EXPERIENCE",
-                                style: GoogleFonts.outfit(
-                                    fontSize: 14.0,
-                                    color: AppColors.textBlueColor,
-                                    letterSpacing: 1.5),
-                              ),
-                            ),
-                            SizedBox(
-                              width: MediaQuery.sizeOf(context).width * 0.015,
-                            ),
-                            GestureDetector(
-                              onTap:() {
-                                _scrollToTarget(_contactKey);
-                              },
-                              child: Text(
-                                "CONTACT ME",
-                                style: GoogleFonts.outfit(
-                                    fontSize: 14.0,
-                                    color: AppColors.textBlueColor,
-                                    letterSpacing: 1.5),
-                              ),
-                            ),
-                            Spacer(),
-                            Row(
-                              children: [
-                                Text(
-                                  "+8801676079239",
+                              const Spacer(),
+                              GestureDetector(
+                                onTap: () {
+                                  _scrollToTarget(_serviceKey);
+                                },
+                                child: Text(
+                                  "SERVICES",
                                   style: GoogleFonts.outfit(
+                                    fontSize: 14.0,
+                                    color: AppColors.textBlueColor,
+                                    letterSpacing: 1.5,
+                                  ),
+                                ),
+                              ),
+                              SizedBox(width: MediaQuery.sizeOf(context).width * 0.015),
+                              GestureDetector(
+                                onTap: () {
+                                  _scrollToTarget(_workKey);
+                                },
+                                child: Text(
+                                  "SKILLS",
+                                  style: GoogleFonts.outfit(
+                                    fontSize: 14.0,
+                                    color: AppColors.textBlueColor,
+                                    letterSpacing: 1.5,
+                                  ),
+                                ),
+                              ),
+                              SizedBox(width: MediaQuery.sizeOf(context).width * 0.015),
+                              GestureDetector(
+                                onTap: () {
+                                  _scrollToTarget(_workKey);
+                                },
+                                child: Text(
+                                  "WORKS",
+                                  style: GoogleFonts.outfit(
+                                    fontSize: 14.0,
+                                    color: AppColors.textBlueColor,
+                                    letterSpacing: 1.5,
+                                  ),
+                                ),
+                              ),
+                              SizedBox(width: MediaQuery.sizeOf(context).width * 0.015),
+                              GestureDetector(
+                                onTap: () {
+                                  _scrollToTarget(_experienceKey);
+                                },
+                                child: Text(
+                                  "EXPERIENCE",
+                                  style: GoogleFonts.outfit(
+                                    fontSize: 14.0,
+                                    color: AppColors.textBlueColor,
+                                    letterSpacing: 1.5,
+                                  ),
+                                ),
+                              ),
+                              SizedBox(width: MediaQuery.sizeOf(context).width * 0.015),
+                              GestureDetector(
+                                onTap: () {
+                                  _scrollToTarget(_contactKey);
+                                },
+                                child: Text(
+                                  "CONTACT ME",
+                                  style: GoogleFonts.outfit(
+                                    fontSize: 14.0,
+                                    color: AppColors.textBlueColor,
+                                    letterSpacing: 1.5,
+                                  ),
+                                ),
+                              ),
+                              const Spacer(),
+                              Row(
+                                children: [
+                                  Text(
+                                    "+8801676079239",
+                                    style: GoogleFonts.outfit(
                                       fontSize: 14.0,
                                       color: AppColors.textBlueColor,
-                                      letterSpacing: 1.5),
-                                ),
-                                const SizedBox(
-                                  width: 10.0,
-                                ),
-                                InkWell(
-                                  onHover: (value) {
-                                    setState(() {
-                                      callHover = value;
-                                    });
-                                  },
-                                  onTap: () {
-                                    launchUrlString("tel://+8801676079239");
-                                  },
-                                  child: AnimatedContainer(
-                                    height: callHover != true ? 40 : 55,
-                                    width: callHover != true ? 40 : 55,
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(50),
-                                        color: callHover != true
-                                            ? Colors.white
-                                            : AppColors.textLightBlueColor,
-                                        boxShadow: callHover != true
-                                            ? [
-                                                BoxShadow(
-                                                  color: Colors.grey
-                                                      .withValues(alpha: 0.5),
-                                                  spreadRadius: 1,
-                                                  blurRadius: 1,
-                                                  offset: Offset(0,
-                                                      0), // changes position of shadow
-                                                ),
-                                              ]
-                                            : [
-                                                BoxShadow(
-                                                  color: AppColors
-                                                      .textLightBlueColor
-                                                      .withValues(alpha: 0.5),
-                                                  spreadRadius: 1,
-                                                  blurRadius: 1,
-                                                  offset: Offset(0,
-                                                      0), // changes position of shadow
-                                                ),
-                                              ]),
-                                    duration: Duration(milliseconds: 300),
-                                    child: Icon(
-                                      Icons.phone_forwarded_rounded,
-                                      color: callHover != true
-                                          ? AppColors.textLightBlueColor
-                                          : Colors.white,
+                                      letterSpacing: 1.5,
                                     ),
                                   ),
-                                )
-                              ],
-                            ),
-                          ],
-                        );
-                      }
-                    }),
+                                  const SizedBox(width: 10.0),
+                                  InkWell(
+                                    onHover: (value) {
+                                      setState(() {
+                                        callHover = value;
+                                      });
+                                    },
+                                    onTap: () {
+                                      launchUrlString("tel://+8801676079239");
+                                    },
+                                    child: AnimatedContainer(
+                                      height: callHover ? 55 : 40,
+                                      width: callHover ? 55 : 40,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(50),
+                                        color: callHover ? AppColors.textLightBlueColor : Colors.white,
+                                        boxShadow: callHover
+                                            ? [
+                                          BoxShadow(
+                                            color: AppColors.textLightBlueColor.withOpacity(0.5),
+                                            spreadRadius: 1,
+                                            blurRadius: 1,
+                                            offset: const Offset(0, 0),
+                                          ),
+                                        ]
+                                            : [
+                                          BoxShadow(
+                                            color: Colors.grey.withOpacity(0.5),
+                                            spreadRadius: 1,
+                                            blurRadius: 1,
+                                            offset: const Offset(0, 0),
+                                          ),
+                                        ],
+                                      ),
+                                      duration: const Duration(milliseconds: 300),
+                                      child: Icon(
+                                        Icons.phone_forwarded_rounded,
+                                        color: callHover ? Colors.white : AppColors.textLightBlueColor,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          );
+                        }
+                      },
+                    ),
+
+                    /// Intro
                     SizedBox(
                       height: MediaQuery.sizeOf(context).height * 0.10,
                     ),
@@ -599,6 +628,8 @@ class _HomePageState extends State<HomePage> {
                         );
                       }
                     }),
+
+                    ///Services
                     SizedBox(
                       height: MediaQuery.sizeOf(context).height * 0.10,
                     ),
@@ -1161,6 +1192,53 @@ class _HomePageState extends State<HomePage> {
                       }
                     }),
 
+                    ///Services
+                    SizedBox(
+                      height: MediaQuery.sizeOf(context).height * 0.10,
+                    ),
+                    Center(
+                      key: _skillsKey,
+                      child: Text(
+                        "SKILLS",
+                        style: GoogleFonts.outfit(
+                            fontSize: 32.0,
+                            fontWeight: FontWeight.bold,
+                            textStyle: TextStyle(
+                                letterSpacing: 1.5,
+                                decoration: TextDecoration.underline)),
+                      ),
+                    ),
+                    SizedBox(
+                      height: MediaQuery.sizeOf(context).height * 0.10,
+                    ),
+                    Wrap(
+                      spacing: 8.0, // Horizontal space between chips
+                      runSpacing: 8.0, // Vertical space between rows
+                      children: skills.entries.map((entry) => Chip(
+                        avatar: SvgPicture.asset(
+                          entry.value,
+                          width: 36,
+                          height: 36,
+                          errorBuilder: (context, error, stackTrace) => const Icon(
+                            Icons.error,
+                            color: Colors.white,
+                            size: 36,
+                          ),
+                        ),
+                        label: Text(
+                          entry.key,
+                          style: GoogleFonts.outfit(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.textBlueColor,
+                          ),
+                        ),
+                        backgroundColor: AppColors.yellowBackground,
+                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      )).toList(),
+                    ),
+
                     /// Workings
                     SizedBox(
                       height: MediaQuery.sizeOf(context).height * 0.10,
@@ -1199,7 +1277,6 @@ class _HomePageState extends State<HomePage> {
                           crossAxisCount: 3,
                           crossAxisSpacing: 10,
                           mainAxisSpacing: 10,
-                          childAspectRatio: 1.2
                         ),
                         itemCount: items.length,
                         itemBuilder: (context, index) {
