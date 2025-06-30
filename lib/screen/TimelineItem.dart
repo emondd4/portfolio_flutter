@@ -24,7 +24,7 @@ class TimelineItem extends StatelessWidget {
       children: [
         // Left side: Date and Title
         Expanded(
-          flex: 1,
+          flex: 2,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [

@@ -31,79 +31,84 @@ class _HomePageState extends State<HomePage> {
     {
       'title': 'Crowd Connect',
       'description': 'This Application is Mainly a Social Gathering Application That Helps Find People Nearby And Get Connect With Them.',
-      'imageUrl': 'assets/crowdConnect.png',
+      'imageUrl': 'https://raw.githubusercontent.com/emondd4/portfolio_flutter/refs/heads/master/assets/crowdConnect.png',
       'liveUrl': 'https://drive.google.com/file/d/1pQIsivN9BWsHGF3Misyksi2iHzj56u46/view?usp=sharing',
     },
     {
       'title': 'Driver Cashflow',
       'description': 'This Application is Mainly Used For Driver Trip Management and Its Based On Italy.',
-      'imageUrl': 'assets/driverCashflow.jpg',
+      'imageUrl': 'https://raw.githubusercontent.com/emondd4/portfolio_flutter/refs/heads/master/assets/driverCashflow.jpg',
       'liveUrl': 'https://play.google.com/store/apps/details?id=com.enjoycitytours.cashflow',
     },
     {
       'title': 'Limo Lead (Driver)',
       'description': 'This is Ride Share Application That Only Serves Limo Services. Its Based On Texas.',
-      'imageUrl': 'assets/limoDriver.png',
+      'imageUrl': 'https://raw.githubusercontent.com/emondd4/portfolio_flutter/refs/heads/master/assets/limoDriver.png',
       'liveUrl': 'https://drive.google.com/file/d/10b-mh342Y2_T5d05eo6RUlWNfSwz2bWm/view?usp=sharing',
     },
     {
       'title': 'Limo Lead (Passenger)',
       'description': 'This is Ride Share Application That Only Serves Limo Services. Its Based On Texas.',
-      'imageUrl': 'assets/limoPassenger.png',
+      'imageUrl': 'https://raw.githubusercontent.com/emondd4/portfolio_flutter/refs/heads/master/assets/limoPassenger.png',
       'liveUrl': 'https://drive.google.com/file/d/16fYyiKEvytabTLXLrhCcY93FhV7MBEow/view?usp=sharing',
+    },{
+      'title': 'Polynet Greenhouse',
+      'description': 'Polynet Greenhouse is a modern, IoT-powered mobile application designed for efficient greenhouse management.',
+      'imageUrl': 'https://raw.githubusercontent.com/emondd4/portfolio_flutter/refs/heads/master/assets/limoPassenger.png',
+      'liveUrl': 'https://play.google.com/store/apps/details?id=com.aqualink.polynet_greenhouse_mobile',
     },
     {
       'title': 'Sensometer Generator Monitoring',
       'description': 'This Application is Mainly For Generator Management System and Let User Know Insights, Status, Report and Control Panel',
-      'imageUrl': 'assets/generatorMonitor.jpg',
+      'imageUrl': 'https://raw.githubusercontent.com/emondd4/portfolio_flutter/refs/heads/master/assets/generatorMonitor.jpg',
       'liveUrl': 'https://play.google.com/store/apps/details?id=com.aqualinkbangladesh.sensometer_generator_monitoring',
     },
     {
       'title': 'Sensometer EMS',
       'description': 'This Application is Mainly For Energy Management and Let User Know Insights, Status, Report and Control Panel',
-      'imageUrl': 'assets/ems.png',
+      'imageUrl': 'https://raw.githubusercontent.com/emondd4/portfolio_flutter/refs/heads/master/assets/ems.png',
       'liveUrl': 'https://play.google.com/store/apps/details?id=com.aqualinkbd.sensometer_ems',
     },
     {
       'title': 'Sensometer Energy Monitoring',
       'description': 'This Application is Mainly For Energy Management and Let User Know Insights, Status, Report and Control Panel',
-      'imageUrl': 'assets/energyMonitor.png',
+      'imageUrl': 'https://raw.githubusercontent.com/emondd4/portfolio_flutter/refs/heads/master/assets/energyMonitor.png',
       'liveUrl': 'https://play.google.com/store/apps/details?id=com.aqualinkbd.sensometer_energy_monitoring',
     },
     {
       'title': 'Sensometer Ac Monitoring',
       'description': 'This Application Gives Analytics on AC Usage and Give User Full Access to Control Over Assigned ACs.',
-      'imageUrl': 'assets/acMonitor.png',
+      'imageUrl': 'https://raw.githubusercontent.com/emondd4/portfolio_flutter/refs/heads/master/assets/acMonitor.png',
       'liveUrl': 'https://play.google.com/store/apps/details?id=com.aqualink.sensometer_ac_monitoring',
     },
     {
       'title': 'Agrotrace Tobacco',
       'description': 'This Application is Mainly for Jamil Group Crop Management Where They Can Create Farmer, Give Loan, Purchase, Rehandle, Ship and Factory Feed.',
-      'imageUrl': 'assets/agrotrace.png',
+      'imageUrl': 'https://raw.githubusercontent.com/emondd4/portfolio_flutter/refs/heads/master/assets/agrotrace.png',
       'liveUrl': 'https://play.google.com/store/apps/details?id=slodh.aqualink.tobaccotrace.agrotracetobacco',
     },
     {
       'title': 'Bluetooth Sensometer',
       'description': 'This Application is Mainly Used to Take Value of Ammonia, Oxygen, Carbon, Nitrogen of Soil Using Realtime Bluetooth Module.',
-      'imageUrl': 'assets/Btmeter.png',
+      'imageUrl': 'https://raw.githubusercontent.com/emondd4/portfolio_flutter/refs/heads/master/assets/Btmeter.png',
       'liveUrl': 'https://play.google.com/store/apps/details?id=com.aqualinkbangladesh.water_sensor.water_sensor',
     },
     {
       'title': 'Fithub',
       'description': 'This Application is Mainly Used for Gym Management Where Admin can Create Member, Manage Payment, Manage Membership and Many More.',
-      'imageUrl': 'assets/fithub.png',
+      'imageUrl': 'https://raw.githubusercontent.com/emondd4/portfolio_flutter/refs/heads/master/assets/fithub.png',
       'liveUrl': 'https://play.google.com/store/apps/details?id=com.aqualink.fithub_gym_management',
     },
     {
       'title': 'Qpass',
       'description': 'This Application is Mainly Used for Human Resource Management Where Admin can Create Member, Manage Salary, Manage Employee, Manage Holidays and Many More.',
-      'imageUrl': 'assets/Hr.png',
+      'imageUrl': 'https://raw.githubusercontent.com/emondd4/portfolio_flutter/refs/heads/master/assets/Hr.png',
       'liveUrl': 'https://play.google.com/store/apps/details?id=com.aqualink.hrms_mobile_app',
     },
     {
       'title': 'Aquaculture WMS',
       'description': 'This Application is Mainly Used for Aquaculture Where User Can Create Pond, Assign Pond, Get Realtime Sensor Values Like DO,NO3,CO2 Even Users Can Get Analysis too.',
-      'imageUrl': 'assets/wmsMonitor.png',
+      'imageUrl': 'https://raw.githubusercontent.com/emondd4/portfolio_flutter/refs/heads/master/assets/wmsMonitor.png',
       'liveUrl': 'https://play.google.com/store/apps/details?id=com.aqualinkbd.aquaculture_wms',
     },
   ];
@@ -1389,39 +1394,33 @@ class _HomePageState extends State<HomePage> {
                       : Column(
                     children: [
                       // Social Media Icons
-                      Column(
+                      Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           _buildSocialIcon(
                             FontAwesomeIcons.linkedin,
                             'https://www.linkedin.com/in/emondd4/',
                           ),
-                          const SizedBox(height: 20),
                           _buildSocialIcon(
                             FontAwesomeIcons.facebook,
                             'https://www.facebook.com/emon.dd4/',
                           ),
-                          const SizedBox(height: 20),
                           _buildSocialIcon(
                             FontAwesomeIcons.instagram,
                             'https://www.instagram.com/emon.dd4/',
                           ),
-                          const SizedBox(height: 20),
                           _buildSocialIcon(
                             FontAwesomeIcons.hackerrank,
                             'https://www.hackerrank.com/profile/emondd4',
                           ),
-                          const SizedBox(height: 20),
                           _buildSocialIcon(
                             FontAwesomeIcons.code,
                             'https://www.leetcode.com/u/emondd4/',
                           ),
-                          const SizedBox(height: 20),
                           _buildSocialIcon(
                             FontAwesomeIcons.github,
                             'https://github.com/emondd4',
                           ),
-                          const SizedBox(height: 20),
                           _buildSocialIcon(
                             FontAwesomeIcons.stackOverflow,
                             'https://stackoverflow.com/users/13304913/emon-hossain-munna',
