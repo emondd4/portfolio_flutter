@@ -549,7 +549,7 @@ class _HomePageState extends State<HomePage> {
                                     height:
                                         MediaQuery.sizeOf(context).height * 0.5,
                                     width:
-                                        MediaQuery.sizeOf(context).width * 0.29,
+                                        MediaQuery.sizeOf(context).width * 0.3,
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(8.0),
                                     ),
@@ -653,7 +653,7 @@ class _HomePageState extends State<HomePage> {
                         return Column(
                           children: [
                             Container(
-                              width: MediaQuery.sizeOf(context).width * 0.5,
+                              width: MediaQuery.sizeOf(context).width * 0.8,
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(8.0),
                                   color: Colors.white,
@@ -707,7 +707,7 @@ class _HomePageState extends State<HomePage> {
                               height: MediaQuery.sizeOf(context).height * 0.03,
                             ),
                             Container(
-                              width: MediaQuery.sizeOf(context).width * 0.5,
+                              width: MediaQuery.sizeOf(context).width * 0.8,
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(8.0),
                                   color: Colors.white,
@@ -761,7 +761,7 @@ class _HomePageState extends State<HomePage> {
                               height: MediaQuery.sizeOf(context).height * 0.03,
                             ),
                             Container(
-                              width: MediaQuery.sizeOf(context).width * 0.5,
+                              width: MediaQuery.sizeOf(context).width * 0.8,
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(8.0),
                                   color: Colors.white,
@@ -1192,7 +1192,7 @@ class _HomePageState extends State<HomePage> {
                       }
                     }),
 
-                    ///Services
+                    ///Skills
                     SizedBox(
                       height: MediaQuery.sizeOf(context).height * 0.10,
                     ),
@@ -1266,8 +1266,7 @@ class _HomePageState extends State<HomePage> {
                         itemBuilder: (context, index) {
                           return Padding(
                             padding: const EdgeInsets.only(bottom: 8.0),
-                            child: CardItem(item: items[index]),
-                          );
+                            child: CardItem(item: items[index],));
                         },
                       )
                           : GridView.builder(
@@ -1280,7 +1279,7 @@ class _HomePageState extends State<HomePage> {
                         ),
                         itemCount: items.length,
                         itemBuilder: (context, index) {
-                          return CardItem(item: items[index]);
+                          return CardItem(item: items[index],);
                         },
                       );
                     }),
