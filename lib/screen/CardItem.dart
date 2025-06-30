@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -30,12 +31,13 @@ class _CardItemState extends State<CardItem> {
   }
 
   // Helper method to determine responsive values based on screen width
-  double _getResponsiveValue(BuildContext context, {
+  double _getResponsiveValue(
+    BuildContext context, {
     required double extraSmall, // For screens < 400 (e.g., very small mobile)
-    required double small,      // For screens < 600 (e.g., mobile)
-    required double medium,     // For screens < 900 (e.g., tablet)
-    required double large,      // For screens < 1200 (e.g., small desktop)
-    required double infinity,   // For screens >= 1200 (e.g., large desktop)
+    required double small, // For screens < 600 (e.g., mobile)
+    required double medium, // For screens < 900 (e.g., tablet)
+    required double large, // For screens < 1200 (e.g., small desktop)
+    required double infinity, // For screens >= 1200 (e.g., large desktop)
   }) {
     final screenWidth = MediaQuery.sizeOf(context).width;
     if (screenWidth < 400) {
@@ -87,19 +89,35 @@ class _CardItemState extends State<CardItem> {
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(
-              _getResponsiveValue(context, extraSmall: 6, small: 8, medium: 10, large: 12, infinity: 14),
+              _getResponsiveValue(context,
+                  extraSmall: 6, small: 8, medium: 10, large: 12, infinity: 14),
             ),
             boxShadow: [
               BoxShadow(
-                color: _isHovered ? AppColors.textLightBlueColor.withOpacity(0.5) : Colors.black.withOpacity(0.1),
-                blurRadius: _getResponsiveValue(context, extraSmall: 4, small: 6, medium: 8, large: 10, infinity: 12),
-                offset: Offset(0, _getResponsiveValue(context, extraSmall: 1, small: 2, medium: 3, large: 4, infinity: 5)),
+                color: _isHovered
+                    ? AppColors.textLightBlueColor.withOpacity(0.5)
+                    : Colors.black.withOpacity(0.1),
+                blurRadius: _getResponsiveValue(context,
+                    extraSmall: 4,
+                    small: 6,
+                    medium: 8,
+                    large: 10,
+                    infinity: 12),
+                offset: Offset(
+                    0,
+                    _getResponsiveValue(context,
+                        extraSmall: 1,
+                        small: 2,
+                        medium: 3,
+                        large: 4,
+                        infinity: 5)),
               ),
             ],
           ),
           child: ClipRRect(
             borderRadius: BorderRadius.circular(
-              _getResponsiveValue(context, extraSmall: 6, small: 8, medium: 10, large: 12, infinity: 14),
+              _getResponsiveValue(context,
+                  extraSmall: 6, small: 8, medium: 10, large: 12, infinity: 14),
             ),
             child: AnimatedContainer(
               duration: const Duration(milliseconds: 300),
@@ -111,8 +129,8 @@ class _CardItemState extends State<CardItem> {
                     bottom: 0,
                     left: 0,
                     right: 0,
-                    child: Image.asset(
-                      widget.item['imageUrl'],
+                    child: CachedNetworkImage(
+                      imageUrl: widget.item['imageUrl'],
                       height: _getResponsiveValue(
                         context,
                         extraSmall: screenHeight * 0.17,
@@ -123,13 +141,25 @@ class _CardItemState extends State<CardItem> {
                       ),
                       width: double.infinity,
                       fit: BoxFit.cover,
-                      errorBuilder: (context, error, stackTrace) {
-                        return Center(
-                          child: Icon(
-                            Icons.error,
-                            size: _getResponsiveValue(context, extraSmall: 30, small: 40, medium: 45, large: 50, infinity: 55),
-                          ),
-                        );
+                      placeholder: (context, url) => Center(
+                        child: CircularProgressIndicator(color: AppColors.yellowBackground,),
+                      ),
+                      errorWidget: (context, url, error) => Center(
+                        child: Icon(
+                          Icons.error,
+                          size: _getResponsiveValue(context,
+                              extraSmall: 30,
+                              small: 40,
+                              medium: 45,
+                              large: 50,
+                              infinity: 55),
+                        ),
+                      ),
+                      cacheManager: CachedNetworkImageProvider.defaultCacheManager,
+                      fadeInDuration: Duration(milliseconds: 300),
+                      fadeOutDuration: Duration(milliseconds: 300),
+                      errorListener: (error) {
+                        debugPrint('Error loading image: $error');
                       },
                     ),
                   ),
@@ -142,7 +172,12 @@ class _CardItemState extends State<CardItem> {
                       width: cardWidth,
                       child: Padding(
                         padding: EdgeInsets.all(
-                          _getResponsiveValue(context, extraSmall: 6, small: 8, medium: 10, large: 12, infinity: 14),
+                          _getResponsiveValue(context,
+                              extraSmall: 6,
+                              small: 8,
+                              medium: 10,
+                              large: 12,
+                              infinity: 14),
                         ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -150,7 +185,12 @@ class _CardItemState extends State<CardItem> {
                             Text(
                               widget.item['title'],
                               style: GoogleFonts.outfit(
-                                fontSize: _getResponsiveValue(context, extraSmall: 10, small: 11, medium: 12, large: 16, infinity: 18),
+                                fontSize: _getResponsiveValue(context,
+                                    extraSmall: 10,
+                                    small: 11,
+                                    medium: 12,
+                                    large: 16,
+                                    infinity: 18),
                                 fontWeight: FontWeight.bold,
                                 color: AppColors.textBlueColor,
                               ),
@@ -168,7 +208,12 @@ class _CardItemState extends State<CardItem> {
                             Text(
                               widget.item['description'],
                               style: GoogleFonts.outfit(
-                                fontSize: _getResponsiveValue(context, extraSmall: 8, small: 10, medium: 11, large: 12, infinity: 12),
+                                fontSize: _getResponsiveValue(context,
+                                    extraSmall: 8,
+                                    small: 10,
+                                    medium: 11,
+                                    large: 12,
+                                    infinity: 12),
                                 color: AppColors.textBlueColor,
                               ),
                             ),
@@ -183,24 +228,45 @@ class _CardItemState extends State<CardItem> {
                               ),
                             ),
                             ElevatedButton(
-                              onPressed: () => _launchUrl(widget.item['liveUrl']),
+                              onPressed: () =>
+                                  _launchUrl(widget.item['liveUrl']),
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: AppColors.textBlueColor,
                                 foregroundColor: Colors.white,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(
-                                    _getResponsiveValue(context, extraSmall: 4, small: 6, medium: 7, large: 8, infinity: 10),
+                                    _getResponsiveValue(context,
+                                        extraSmall: 4,
+                                        small: 6,
+                                        medium: 7,
+                                        large: 8,
+                                        infinity: 10),
                                   ),
                                 ),
                                 padding: EdgeInsets.symmetric(
-                                  horizontal: _getResponsiveValue(context, extraSmall: 8, small: 12, medium: 16, large: 20, infinity: 24),
-                                  vertical: _getResponsiveValue(context, extraSmall: 6, small: 8, medium: 10, large: 12, infinity: 14),
+                                  horizontal: _getResponsiveValue(context,
+                                      extraSmall: 8,
+                                      small: 12,
+                                      medium: 16,
+                                      large: 20,
+                                      infinity: 24),
+                                  vertical: _getResponsiveValue(context,
+                                      extraSmall: 6,
+                                      small: 8,
+                                      medium: 10,
+                                      large: 12,
+                                      infinity: 14),
                                 ),
                               ),
                               child: Text(
                                 'Go Live',
                                 style: GoogleFonts.outfit(
-                                  fontSize: _getResponsiveValue(context, extraSmall: 8, small: 10, medium: 11, large: 12, infinity: 14),
+                                  fontSize: _getResponsiveValue(context,
+                                      extraSmall: 8,
+                                      small: 10,
+                                      medium: 11,
+                                      large: 12,
+                                      infinity: 14),
                                   color: Colors.white,
                                 ),
                               ),

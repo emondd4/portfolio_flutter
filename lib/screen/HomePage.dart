@@ -54,7 +54,7 @@ class _HomePageState extends State<HomePage> {
     },{
       'title': 'Polynet Greenhouse',
       'description': 'Polynet Greenhouse is a modern, IoT-powered mobile application designed for efficient greenhouse management.',
-      'imageUrl': 'https://raw.githubusercontent.com/emondd4/portfolio_flutter/refs/heads/master/assets/limoPassenger.png',
+      'imageUrl': 'https://raw.githubusercontent.com/emondd4/portfolio_flutter/refs/heads/master/assets/polynet.png',
       'liveUrl': 'https://play.google.com/store/apps/details?id=com.aqualink.polynet_greenhouse_mobile',
     },
     {
@@ -1467,7 +1467,7 @@ class _HomePageState extends State<HomePage> {
               transformAlignment: Alignment.center,
               child: FaIcon(
                 icon,
-                size: isHovered ? 40 : 32, // Size changes on hover
+                size: isHovered ? 38 : 28, // Size changes on hover
                 color: isHovered ? AppColors.textLightBlueColor : AppColors.textBlueColor, // Color changes on hover
               ),
             ),
