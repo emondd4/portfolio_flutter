@@ -1,12 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:portfolio/model/WorkingBaseModel.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../utils/AppColors.dart';
 
 class CardItem extends StatefulWidget {
-  final Map<String, dynamic> item;
+  final Data item;
 
   const CardItem({super.key, required this.item});
 
@@ -130,7 +131,7 @@ class _CardItemState extends State<CardItem> {
                     left: 0,
                     right: 0,
                     child: CachedNetworkImage(
-                      imageUrl: widget.item['imageUrl'],
+                      imageUrl: widget.item.imageUrl.toString(),
                       height: _getResponsiveValue(
                         context,
                         extraSmall: screenHeight * 0.17,
@@ -183,7 +184,7 @@ class _CardItemState extends State<CardItem> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              widget.item['title'],
+                              widget.item.title.toString(),
                               style: GoogleFonts.outfit(
                                 fontSize: _getResponsiveValue(context,
                                     extraSmall: 10,
@@ -206,7 +207,7 @@ class _CardItemState extends State<CardItem> {
                               ),
                             ),
                             Text(
-                              widget.item['description'],
+                              widget.item.description.toString(),
                               style: GoogleFonts.outfit(
                                 fontSize: _getResponsiveValue(context,
                                     extraSmall: 8,
@@ -229,7 +230,7 @@ class _CardItemState extends State<CardItem> {
                             ),
                             ElevatedButton(
                               onPressed: () =>
-                                  _launchUrl(widget.item['liveUrl']),
+                                  _launchUrl(widget.item.liveUrl.toString()),
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: AppColors.textBlueColor,
                                 foregroundColor: Colors.white,
